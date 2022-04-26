@@ -3,14 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Author;
-use App\Models\PostCategories;
 
 class PostAuthorRepository implements PostAuthorRepositoryInterface
 {
 
     public function get($postAuthorId)
     {
-        // TODO: Implement get() method.
+        return Author::find($postAuthorId);
     }
 
     public function all()
@@ -26,11 +25,11 @@ class PostAuthorRepository implements PostAuthorRepositoryInterface
 
     public function update($postAuthorId, array $postAuthorData)
     {
-        // TODO: Implement update() method.
+        Author::find($postAuthorId)->update($postAuthorData);
     }
 
     public function store(array $postAuthorData)
     {
-        // TODO: Implement store() method.
+        Author::create($postAuthorData);
     }
 }

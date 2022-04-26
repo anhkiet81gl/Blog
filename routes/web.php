@@ -44,6 +44,11 @@ Route::middleware('auth')->group(function () {
                 ->name('GET', 'edit')
                 ->name('POST', 'store')
                 ->name('PUT', 'update');
+            Route::resource('authors', \App\Http\Controllers\AuthorController::class)
+                ->only(['index', 'edit', 'show', 'update', 'create', 'store', 'destroy'])
+                ->name('GET', 'edit')
+                ->name('POST', 'store')
+                ->name('PUT', 'update');
         });
     });
 });
