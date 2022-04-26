@@ -56,7 +56,7 @@ class PostCategoriesController extends Controller
         try {
             $data = $this->handlePostCategories($request);
             $this->postCategoriesRepository->update($id, (array)$data);
-            return redirect()->back()->with('success', 'Update Categories successfully');
+            return redirect()->back()->with('success', 'Update author successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage())->with('validator', $e->errors());
         }
