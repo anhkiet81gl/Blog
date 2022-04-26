@@ -12,7 +12,7 @@ class PostTagsRepository implements PostTagsRepositoryInterface
 
     public function get($tagId)
     {
-        // TODO: Implement get() method.
+        return Tag::find($tagId);
     }
 
     public function all()
@@ -27,11 +27,11 @@ class PostTagsRepository implements PostTagsRepositoryInterface
 
     public function update($tagId, array $tagData)
     {
-        // TODO: Implement update() method.
+        Tag::find($tagId)->update($tagData);
     }
 
     public function store(array $tagData)
     {
-        // TODO: Implement store() method.
+         Tag::create($tagData);
     }
 }
