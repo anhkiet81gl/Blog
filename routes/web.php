@@ -39,6 +39,11 @@ Route::middleware('auth')->group(function () {
                 ->name('GET', 'edit')
                 ->name('POST', 'store')
                 ->name('PUT', 'update');
+            Route::resource('tags', \App\Http\Controllers\TagController::class)
+                ->only(['index', 'edit', 'show', 'update', 'create', 'store', 'destroy'])
+                ->name('GET', 'edit')
+                ->name('POST', 'store')
+                ->name('PUT', 'update');
         });
     });
 });

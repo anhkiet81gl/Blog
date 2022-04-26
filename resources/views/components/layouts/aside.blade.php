@@ -7,9 +7,7 @@
         <ul class="navbar-nav text-light" id="accordionSidebar">
             <li class="nav-item"><a class="nav-link" href="{{route('admin.posts.index')}}"><i class="fas fa-tachometer-alt"></i><span>Posts</span></a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('admin.post-categories.index')}}"><i class="fas fa-user"></i><span>Post Categories</span></a></li>
-{{--            <li class="nav-item"><a class="nav-link" href="table.html"><i class="fas fa-table"></i><span>Table</span></a></li>--}}
-{{--            <li class="nav-item"><a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Login</span></a></li>--}}
-{{--            <li class="nav-item"><a class="nav-link" href="register.html"><i class="fas fa-user-circle"></i><span>Register</span></a></li>--}}
+            <li class="nav-item"><a class="nav-link" href="{{route('admin.tags.index')}}"><i class="fas fa-user"></i><span>Post Tags</span></a></li>
         </ul>
         <div class="text-center d-none d-md-inline">
             <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
