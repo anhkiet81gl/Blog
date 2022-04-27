@@ -39,4 +39,28 @@ interface PostRepositoryInterface
      * @param array $postData
      */
     public function store(array $postData);
+
+    /**
+     * Gets all posts.
+     *
+     * @param int $pagination
+     * @return mixed
+     */
+    public function getPostWithPagination(int $pagination);
+
+    /**
+     * Gets all posts.
+     *
+     * @param mixed $post
+     * @return string
+     */
+    public function getImageUrl($post);
+
+    /**
+     * Gets all posts.
+     *
+     * @param string $urlKey
+     * @return mixed
+     */
+    public function getPostByUrlKey(string $urlKey);
 }

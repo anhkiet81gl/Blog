@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PostDataTable;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -129,6 +130,7 @@ class PostController extends Controller
 
         if (isset($validator['image'])) {
             $image = Storage::disk('public')->putFileAs('post', $validator['image'], $validator['image']->getClientOriginalName());
+            Artisan::call('storage:link');
             $result['image'] = $image;
         } else {
             $result['image'] = '';
