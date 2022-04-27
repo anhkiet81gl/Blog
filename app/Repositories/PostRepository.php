@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -69,5 +70,29 @@ class PostRepository implements PostRepositoryInterface
         $post->postCategories()->sync($categories);
         $post->postTags()->sync($tags);
         $post->postAuthors()->sync($author);
+    }
+
+    public function getPostWithPagination(int $pagination = null)
+    {
+        return Post::paginate($pagination);
+    }
+
+    public function getImageUrl($post)
+    {
+        if (isset($post->toArray()['image'])) {
+            return Storage::disk('public')->url($post->getAttribute('image'));
+        }
+        return '';
+    }
+
+    public function getPostByUrlKey(string $urlKey)
+    {
+        $post = Post::where('slug', $urlKey);
+
+        if(!empty($post->get()->toArray())){
+            return $post->first();
+        }
+
+        abort(404, 'Post not found');
     }
 }
