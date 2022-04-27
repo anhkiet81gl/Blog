@@ -34,4 +34,15 @@ class PostTagsRepository implements PostTagsRepositoryInterface
     {
          Tag::create($tagData);
     }
+
+    public function getPostsByUrlKey(string $urlKey)
+    {
+        $posts = Tag::where('url_key', $urlKey);
+
+        if(!empty($posts->get()->toArray())){
+            return $posts->first()->posts();
+        }
+
+        abort(404, 'Post not found');
+    }
 }

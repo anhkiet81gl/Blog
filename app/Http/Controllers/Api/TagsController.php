@@ -3,62 +3,66 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Post\PostCollection;
 use Illuminate\Http\Request;
 
 class TagsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $postRepository;
+    protected $postTagsRepository;
+
+    public function __construct(
+        \App\Repositories\PostRepositoryInterface     $postRepository,
+        \App\Repositories\PostTagsRepositoryInterface $postTagsRepository
+    )
+    {
+        $this->postRepository = $postRepository;
+        $this->postTagsRepository = $postTagsRepository;
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request, $urlKey)
     {
-        //
+        $pagination = $request->query('per_page') ?? null;
+        $posts = $this->postTagsRepository->getPostsByUrlKey($urlKey);
+        $collection = $posts->paginate("10");
+
+        foreach ($collection as $key => $value) {
+            $post = $this->handleSetDataPost($value);
+            $collection[$key] = $post;
+        }
+
+        return new PostCollection($collection);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+    }
+
+    protected function handleSetDataPost($post)
+    {
+        $url = $this->postRepository->getImageUrl($post);
+
+        $post->setAttribute('image', $url);
+        $post->setAttribute('categories', $post->postCategories);
+        $post->setAttribute('authors', $post->postAuthors);
+        $post->setAttribute('tags', $post->postTags);
+
+        return $post;
     }
 }

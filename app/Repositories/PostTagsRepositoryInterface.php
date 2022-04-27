@@ -39,4 +39,11 @@ interface PostTagsRepositoryInterface
      * @param array $tagData
      */
     public function store(array $tagData);
+
+    /**
+     * Deletes a post.
+     *
+     * @param string $urlKey
+     */
+    public function getPostsByUrlKey(string $urlKey);
 }
