@@ -15,4 +15,9 @@ class Author extends Model
         'name',
         'url_key'
     ];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, PostAuthor::class, 'post_author_id', 'post_id');
+    }
 }

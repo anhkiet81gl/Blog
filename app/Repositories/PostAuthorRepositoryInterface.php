@@ -39,4 +39,11 @@ interface PostAuthorRepositoryInterface
      * @param array $postAuthorData
      */
     public function store(array $postAuthorData);
+
+    /**
+     * Gets a post by its ID
+     *
+     * @param string $urlKey
+     */
+    public function getPostsByUrlKey(string $urlKey);
 }

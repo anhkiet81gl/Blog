@@ -32,4 +32,15 @@ class PostAuthorRepository implements PostAuthorRepositoryInterface
     {
         Author::create($postAuthorData);
     }
+
+    public function getPostsByUrlKey(string $urlKey)
+    {
+        $posts = Author::where('url_key', $urlKey);
+
+        if(!empty($posts->get()->toArray())){
+            return $posts->first()->posts();
+        }
+
+        abort(404, 'Post not found');
+    }
 }
