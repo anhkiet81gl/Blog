@@ -39,4 +39,11 @@ interface PostCategoriesRepositoryInterface
      * @param array $postCategoriesData
      */
     public function store(array $postCategoriesData);
+
+    /**
+     * Deletes a post.
+     *
+     * @param string $urlKey
+     */
+    public function getPostsByUrlKey(string $urlKey);
 }

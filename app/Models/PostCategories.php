@@ -13,4 +13,10 @@ class PostCategories extends Model
         'name',
         'url_key',
     ];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, PostCategory::class, 'post_category_id', 'post_id',);
+    }
+
 }
