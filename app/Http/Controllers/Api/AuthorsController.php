@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Post\PostCollection;
+use App\Http\Resources\PostAuthors\PostAuthorsCollection;
 use Illuminate\Http\Request;
 
 class AuthorsController extends Controller
@@ -22,7 +23,9 @@ class AuthorsController extends Controller
 
     public function index()
     {
-        //
+        $author = $this->postAuthorRepository->all();
+
+        return new PostAuthorsCollection($author);
     }
 
     public function store(Request $request)

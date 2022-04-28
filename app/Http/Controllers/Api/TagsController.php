@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Post\PostCollection;
+use App\Http\Resources\PostTags\PostTagCollection;
 use Illuminate\Http\Request;
 
 class TagsController extends Controller
@@ -22,7 +23,7 @@ class TagsController extends Controller
 
     public function index()
     {
-        //
+        return new PostTagCollection($this->postTagsRepository->all());
     }
 
     public function store(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Post\PostCollection;
+use App\Http\Resources\PostCategories\PostCategoriesCollection;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -22,7 +23,9 @@ class CategoriesController extends Controller
 
     public function index()
     {
-        //
+        $categories = $this->postCategoriesRepository->all();
+
+        return new PostCategoriesCollection($categories);
     }
 
     public function store(Request $request)
