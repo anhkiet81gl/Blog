@@ -1,0 +1,21 @@
+version: '3.5'
+services:
+  customproduct-dev:
+    image: $CI_REGISTRY_IMAGE:dev
+    volumes:
+      - /customproduct/storage-public:/laravel/storage/app/public
+      - /customproduct/upload:/laravel/public/upload
+      - /customproduct/logs:/laravel/storage/logs
+      - /customproduct/sessions:/laravel/storage/framework/sessions
+    environment:
+      - APP_URL=${APP_URL}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - FRONTEND_SCRIPT=${FRONTEND_SCRIPT}
+      - ADMIN_HTTPS=true
+    ports:
+      - 9998:8080

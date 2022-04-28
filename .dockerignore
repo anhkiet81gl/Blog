@@ -1,0 +1,6 @@
+.git
+vendor/
+/public/hot
+/public/upload
+/public/storage
+/storage

@@ -1,0 +1,74 @@
+worker_processes  1;
+error_log stderr warn;
+pid /run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main_timed  '${DOLLAR}remote_addr - ${DOLLAR}remote_user [${DOLLAR}time_local] "${DOLLAR}request" '
+                            '${DOLLAR}status ${DOLLAR}body_bytes_sent "${DOLLAR}http_referer" '
+                            '"${DOLLAR}http_user_agent" "${DOLLAR}http_x_forwarded_for" '
+                            '${DOLLAR}request_time ${DOLLAR}upstream_response_time ${DOLLAR}pipe ${DOLLAR}upstream_cache_status';
+    sendfile on;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    keepalive_timeout  6500;
+    fastcgi_read_timeout 30000;
+    proxy_read_timeout 30000;
+
+    server {
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+        listen [::]:8080 default_server;
+        listen 8080 default_server;
+        server_name _;
+		set ${DOLLAR}LARAVELROOT /laravel;
+		root ${DOLLAR}LARAVELROOT/public;
+        index index.php;
+        autoindex off;
+        charset off;
+        client_max_body_size 1000M;
+        add_header 'X-Content-Type-Options' 'nosniff';
+        add_header 'X-XSS-Protection' '1; mode=block';
+
+		location / {
+			try_files ${DOLLAR}uri ${DOLLAR}uri/ /index.php?${DOLLAR}args;
+		}
+
+
+		location ~ (index|get|static|report|404|503)\.php${DOLLAR} {
+			try_files ${DOLLAR}uri =404;
+			fastcgi_pass  127.0.0.1:9000;
+
+			fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
+			fastcgi_param  PHP_VALUE "memory_limit=256M \n max_execution_time=600";
+			fastcgi_read_timeout 600s;
+			fastcgi_connect_timeout 600s;
+			fastcgi_index  index.php;
+			fastcgi_param  SCRIPT_FILENAME  ${DOLLAR}document_root${DOLLAR}fastcgi_script_name;
+			include        fastcgi_params;
+		}
+
+
+        # allow fpm ping and status from localhost
+        #
+        location ~ ^/(fpm-status|fpm-ping)${DOLLAR} {
+            access_log off;
+            allow 127.0.0.1;
+            deny all;
+            fastcgi_param SCRIPT_FILENAME ${DOLLAR}document_root${DOLLAR}fastcgi_script_name;
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;
+        }
+
+    }
+}
